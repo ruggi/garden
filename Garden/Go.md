@@ -1,0 +1,1 @@
+[Go](https://go.dev) is a strongly typed, compiled, structured programming language.

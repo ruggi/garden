@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>digital garden</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
+	<style>
+		a::before {
+			content: "[";
+		}
+
+		a::after {
+			content: "]";
+		}
+
+		a[href="#"] {
+			color: #f09 !important;
+		}
+
+		a[target="_blank"] {
+			color: #90f !important;
+		}
+
+		a[target="_blank"]::before {
+			content:"{";
+		}
+
+		a[target="_blank"]::after {
+			content: "}";
+		}
+
+		.content .title {
+			margin-bottom: 20px;
+		}
+
+		nav {
+			text-transform: lowercase;
+		}
+
+	</style>
+</head>
+
+<body>
+	<nav><a href="/">Index</a></nav>
+	<div class="content">
+		<h1 class="title">digital garden</h1>
+		<p>This is my attempt at growing and tending to a digital garden.</p>
+
+<p>The pages are written in plain text (with Markdown) and managed mostly with <a href="#">Obsidian</a>. The source code is available <a href="https://github.com/ruggi/garden/tree/main/Garden" target="_blank">on Github</a>.</p>
+
+<p>The Obsidian vault is rendered to HTML for easier consulting thanks to a tiny <a href="./Go.html">Go</a> program (<a href="https://github.com/ruggi/garden/blob/main/main.go" target="_blank">link</a>).</p>
+
+	</div>
+</body>
+
+</html>
