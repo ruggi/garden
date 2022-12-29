@@ -8,3 +8,4 @@
 
 ## Tinkering
 - Learning to make music with the [[OP-Z]]
+- Making a [[Go]] program to render my digital garden

@@ -40,6 +40,13 @@
 			text-transform: lowercase;
 		}
 
+		.incoming {
+			margin-top: 20px;
+			border-top: 1px solid #f6f8fa;
+			padding-top: 10px;
+			font-size: 12px;
+		}
+
 	</style>
 </head>
 
@@ -52,6 +59,12 @@
 		<h1 class="title">{{.Title}}</h1>
 		{{.Body}}
 	</div>
+	{{if gt (len .Incoming) 0 }}
+	<div class="incoming">Incoming: {{range $link := .Incoming}}
+		<a href="{{$link.Href}}">{{$link.Name}}</a>
+		{{end}}
+	</div>
+	{{end}}
 </body>
 
 </html>
