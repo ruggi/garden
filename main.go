@@ -19,15 +19,17 @@ import (
 type set map[string]bool
 
 var (
-	src     string
-	dst     string
-	tplPath string
+	src         string
+	dst         string
+	tplPath     string
+	recentsPath string
 )
 
 func init() {
 	flag.StringVar(&src, "src", "", "where the notes are")
 	flag.StringVar(&dst, "dst", "", "where the generated html is")
 	flag.StringVar(&tplPath, "tpl", "", "path of the template")
+	flag.StringVar(&recentsPath, "r", "", "path of the recents file")
 }
 
 func main() {
@@ -75,6 +77,12 @@ func run() error {
 	if err != nil {
 		return fmt.Errorf("compile regex: %w", err)
 	}
+
+	recentsData, err := os.ReadFile(recentsPath)
+	if err != nil {
+		return fmt.Errorf("read recents: %w", err)
+	}
+	recents := strings.Fields(string(recentsData))
 
 	// make a map of all the valid filenames
 	extensions := set{
@@ -134,7 +142,7 @@ func run() error {
 		// process and output the file
 		slug := strings.ReplaceAll(path, " ", "-")
 		slugPath := filepath.Join(dst, slug)
-		err = processFile(tpl, filepath.Base(path), slugPath, string(data), incoming)
+		err = processFile(tpl, filepath.Base(path), slugPath, string(data), incoming, recents)
 		if err != nil {
 			return fmt.Errorf("process %s: %s", path, err)
 		}
@@ -158,9 +166,10 @@ type page struct {
 	Title    string
 	Body     string
 	Incoming []link
+	Recents  []link
 }
 
-func processFile(tpl *template.Template, name, path, data string, incoming map[string]set) error {
+func processFile(tpl *template.Template, name, path, data string, incoming map[string]set, recents []string) error {
 	base := filepath.Base(path)
 	nameWithoutExt := strings.TrimSuffix(name, filepath.Ext(name))
 	baseWithoutExt := strings.TrimSuffix(base, filepath.Ext(base))
@@ -171,6 +180,16 @@ func processFile(tpl *template.Template, name, path, data string, incoming map[s
 	page.Body = string(markdown.ToHTML([]byte(data), nil, html.NewRenderer(html.RendererOptions{
 		Flags: html.CommonFlags | html.HrefTargetBlank,
 	})))
+
+	recentLinks := links{}
+	for _, r := range recents {
+		withoutExt := strings.TrimSuffix(r, filepath.Ext(r))
+		recentLinks = append(recentLinks, link{
+			Href: strings.ReplaceAll(withoutExt, " ", "-") + ".html",
+			Name: withoutExt,
+		})
+	}
+	page.Recents = recentLinks
 
 	incomingLinks := links{}
 	for f := range incoming[nameWithoutExt] {
