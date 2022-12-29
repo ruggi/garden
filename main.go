@@ -78,7 +78,8 @@ func run() error {
 
 	// make a map of all the valid filenames
 	extensions := set{
-		".md": true,
+		".md":  true,
+		".png": true,
 	}
 	files := set{}
 	err = filepath.WalkDir(src, func(path string, d fs.DirEntry, err error) error {
