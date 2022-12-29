@@ -4,4 +4,4 @@ build: recents
 
 .PHONY: recents
 recents:
-	git diff --name-only -10 Garden | grep '.md' | sort -u | sed 's/Garden\///' > recents.txt
+	git log --name-only --pretty=format: -5 Garden | sort | uniq | grep '.md' | sort -u | sed 's/Garden\///' > recents.txt

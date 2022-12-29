@@ -1,1 +1,3 @@
 Go.md
+index.md
+now.md
